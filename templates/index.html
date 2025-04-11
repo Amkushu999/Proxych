@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxy Checker Telegram Bot</title>
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container py-4">
+        <header class="pb-3 mb-4 border-bottom d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <svg class="bot-logo me-3" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <h1 class="fs-4">Proxy Checker Telegram Bot</h1>
+            </div>
+            <div>
+                <span class="badge bg-primary">v1.0</span>
+            </div>
+        </header>
+
+        <div class="bot-status {% if status.running %}running{% else %}not-running{% endif %}">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="mb-0">
+                        {% if status.running %}
+                        <i class="bi bi-check-circle-fill me-2"></i>Bot is Running
+                        {% else %}
+                        <i class="bi bi-x-circle-fill me-2"></i>Bot is Not Running
+                        {% endif %}
+                    </h4>
+                    {% if status.started_at %}
+                    <div class="mt-2"><strong>Started at:</strong> {{ status.started_at }}</div>
+                    {% endif %}
+                    {% if status.last_check %}
+                    <div><strong>Last status check:</strong> {{ status.last_check }}</div>
+                    {% endif %}
+                </div>
+                <div>
+                    <a href="/restart" class="btn btn-primary btn-sm">
+                        <i class="bi bi-arrow-clockwise me-1"></i>Restart Bot
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-people-fill fs-1 text-primary mb-2"></i>
+                        <div class="stat-counter">{{ status.active_users }}</div>
+                        <div class="stat-label">Active Users</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-hdd-network-fill fs-1 text-primary mb-2"></i>
+                        <div class="stat-counter">{{ status.total_checks }}</div>
+                        <div class="stat-label">Total Proxies Checked</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-check-circle-fill fs-1 text-primary mb-2"></i>
+                        <div class="stat-counter">{{ status.successful_checks }}</div>
+                        <div class="stat-label">Working Proxies Found</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <i class="bi bi-info-circle me-2"></i>Usage Instructions
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">How to use the Proxy Checker Bot</h5>
+                        <ol class="mb-4">
+                            <li>Open Telegram and search for your bot</li>
+                            <li>Start a chat with the bot by clicking on the Start button</li>
+                            <li>Send a proxy in one of these formats:
+                                <ul class="mt-2">
+                                    <li><span class="proxy-format">ip:port</span> - for regular proxies</li>
+                                    <li><span class="proxy-format">ip:port:username:password</span> - for authenticated proxies</li>
+                                </ul>
+                            </li>
+                            <li>The bot will check if the proxy is alive and provide detailed information</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <i class="bi bi-terminal me-2"></i>Available Commands
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Bot Commands</h5>
+                        <ul class="protocol-list">
+                            <li><code>/start</code> - Start the bot and get welcome message</li>
+                            <li><code>/help</code> - Show help information</li>
+                            <li><code>/pchk ip:port</code> - Check a specific proxy</li>
+                            <li><code>/stats</code> - Show your usage statistics</li>
+                        </ul>
+                        
+                        <h5 class="card-title mt-4">Supported Protocols</h5>
+                        <ul class="protocol-list">
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>HTTP</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>HTTPS</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>SOCKS4</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>SOCKS5</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if status.errors %}
+        <div class="card mb-4">
+            <div class="card-header bg-danger text-white">
+                <i class="bi bi-exclamation-triangle me-2"></i>Errors
+            </div>
+            <div class="card-body">
+                <div class="error-list">
+                    {% for error in status.errors %}
+                    <div class="error-item">
+                        <i class="bi bi-x-circle me-1"></i>{{ error }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <footer class="footer text-center">
+            <p>Proxy Checker Telegram Bot | Powered by <strong>ProxyCHK</strong></p>
+            <p class="small">Built with Python and Flask</p>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

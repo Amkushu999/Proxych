@@ -1,0 +1,12 @@
+[project]
+name = "repl-nix-workspace"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.11"
+dependencies = [
+    "aiohttp>=3.11.16",
+    "flask>=3.1.0",
+    "gunicorn>=23.0.0",
+    "python-telegram-bot[socks]>=22.0",
+    "telegram>=0.0.1",
+]

@@ -1,0 +1,87 @@
+/* Custom styles for Proxy Checker Bot */
+.bot-status {
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+}
+
+.running {
+    background-color: var(--bs-success-bg-subtle);
+    color: var(--bs-success-text);
+    border: 1px solid var(--bs-success-border-subtle);
+}
+
+.not-running {
+    background-color: var(--bs-danger-bg-subtle);
+    color: var(--bs-danger-text);
+    border: 1px solid var(--bs-danger-border-subtle);
+}
+
+.protocol-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.protocol-list li {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background-color: var(--bs-dark-bg-subtle);
+}
+
+.proxy-format {
+    font-family: monospace;
+    background-color: var(--bs-dark-bg-subtle);
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+}
+
+.footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--bs-border-color);
+    color: var(--bs-secondary-color);
+}
+
+.error-list {
+    background-color: var(--bs-danger-bg-subtle);
+    border-radius: 5px;
+    padding: 1rem;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.error-item {
+    color: var(--bs-danger-text);
+    margin-bottom: 0.5rem;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+/* Animation for the logo */
+.bot-logo {
+    transition: all 0.3s ease;
+}
+
+.bot-logo:hover {
+    transform: scale(1.05);
+}
+
+/* Stats counters */
+.stat-counter {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--bs-primary);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--bs-secondary-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .stat-counter {
+        font-size: 1.2rem;
+    }
+}
